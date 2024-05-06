@@ -12,14 +12,19 @@ UCLASS()
 class VISIONCONEVISUALIZER_API AFrustum : public AActor
 {
 	GENERATED_BODY()
-private:
+public:
 
 	/** The camera component for this camera */
-	UPROPERTY(Category = CameraActor, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* CameraComponent;
+	//UPROPERTY(Category = CameraActor, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	//UCameraComponent* CameraComponent;
 
 	UPROPERTY(Category = CameraActor, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* SceneComponent;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "AAA")
+	float AspectRatio;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "AAA")
+	float FOV;
 public:
 	// Sets default values for this actor's properties
 	AFrustum();
@@ -38,4 +43,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void OverrideFrustumColor(FColor NewColor);
+
+	UFUNCTION(CallInEditor, BlueprintCallable, Category = "AAA")
+		void DrawThisFrustum();
+
+	UFUNCTION(CallInEditor, BlueprintCallable, Category = "AAA")
+		void ChangeFrustumVisibility();
+
+#if WITH_EDITORONLY_DATA
+	// The frustum component used to show visually where the camera field of view is
+	class UDrawFrustumComponent* DrawFrustum;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "AAA")
+		float EndDistance;
+#endif	// WITH_EDITORONLY_DATA
 };
